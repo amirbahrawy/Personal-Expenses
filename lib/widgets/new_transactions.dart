@@ -1,5 +1,10 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import '../widgets/adaptive_flat_button.dart';
 
 class NewTransactions extends StatefulWidget {
   final Function addTx;
@@ -42,56 +47,56 @@ class _NewTransactionsState extends State<NewTransactions> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Container(
-        padding: EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            TextField(
-              decoration: InputDecoration(labelText: 'Title'),
-              controller: _titleController,
-            ),
-            TextField(
-              decoration: InputDecoration(labelText: 'Amount'),
-              controller: _amountController,
-              keyboardType: TextInputType.number,
-              onSubmitted: (_) => _submitData(),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              children: [
-                Expanded(
-                    child: Text(
-                  _selectedDate == null
-                      ? 'No date Chosen!'
-                      : 'Picked Date: ${DateFormat.yMd().format(_selectedDate)}',
-                  style: TextStyle(fontSize: 16),
-                )),
-                SizedBox(
-                  width: 6,
-                ),
-                FlatButton(
-                    textColor: Theme.of(context).primaryColor,
-                    child: Text(
-                      'Choose Date',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    onPressed: _showDataPicker)
-              ],
-            ),
-            RaisedButton(
-                onPressed: _submitData,
-                color: Theme.of(context).primaryColor,
-                textColor: Theme.of(context).textTheme.button.color,
-                child: Text(
-                  'Add Transaction',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ))
-          ],
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Container(
+          padding: EdgeInsets.only(
+              right: 10,
+              left: 10,
+              top: 10,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              TextField(
+                decoration: InputDecoration(labelText: 'Title'),
+                controller: _titleController,
+              ),
+              TextField(
+                decoration: InputDecoration(labelText: 'Amount'),
+                controller: _amountController,
+                keyboardType: TextInputType.number,
+                onSubmitted: (_) => _submitData(),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                      child: Text(
+                    _selectedDate == null
+                        ? 'No date Chosen!'
+                        : 'Picked Date: ${DateFormat.yMd().format(_selectedDate)}',
+                    style: TextStyle(fontSize: 16),
+                  )),
+                  SizedBox(
+                    width: 6,
+                  ),
+                  AdaptiveFlatButton('Choose Date', _showDataPicker)
+                ],
+              ),
+              RaisedButton(
+                  onPressed: _submitData,
+                  color: Theme.of(context).primaryColor,
+                  textColor: Theme.of(context).textTheme.button.color,
+                  child: Text(
+                    'Add Transaction',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ))
+            ],
+          ),
         ),
       ),
     );
