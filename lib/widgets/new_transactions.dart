@@ -9,16 +9,43 @@ import '../widgets/adaptive_flat_button.dart';
 class NewTransactions extends StatefulWidget {
   final Function addTx;
 
-  NewTransactions(this.addTx);
+  NewTransactions(this.addTx) {
+    print('Constructor NewTransaction added');
+  }
 
   @override
-  _NewTransactionsState createState() => _NewTransactionsState();
+  _NewTransactionsState createState() {
+    print('Create State NewTransaction added');
+    return _NewTransactionsState();
+  }
 }
 
 class _NewTransactionsState extends State<NewTransactions> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime _selectedDate;
+
+  _NewTransactionsState() {
+    print('Constructor NewTransaction_State added');
+  }
+  @override
+  void initState() {
+    print('InitState NewTransaction added');
+    super.initState();
+  }
+
+  // lw al parent 7aslo rebuild
+  @override
+  void didUpdateWidget(covariant NewTransactions oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    print('didUpdateWidget NewTransaction added');
+  }
+
+  @override
+  void dispose() {
+    print('Dispose');
+    super.dispose();
+  }
 
   void _submitData() {
     final enteredTitle = _titleController.text;
@@ -47,6 +74,7 @@ class _NewTransactionsState extends State<NewTransactions> {
 
   @override
   Widget build(BuildContext context) {
+    print('build');
     return SingleChildScrollView(
       child: Card(
         elevation: 5,

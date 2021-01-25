@@ -82,6 +82,48 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  List<Widget> _buildLansScapeContent(MediaQueryData mediaQuery, AppBar appBar,
+      double statusBar, Widget txListWidget) {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('Show Chart', style: Theme.of(context).textTheme.title),
+          Switch.adaptive(
+            activeColor: Theme.of(context).accentColor,
+            value: _showChart,
+            onChanged: (val) {
+              setState(() {
+                _showChart = val;
+              });
+            },
+          )
+        ],
+      ),
+      _showChart
+          ? Container(
+              height: (mediaQuery.size.height -
+                      appBar.preferredSize.height -
+                      statusBar) *
+                  .6,
+              child: Chart(_recentTransaction))
+          : txListWidget
+    ];
+  }
+
+  List<Widget> _buildPortraitContent(MediaQueryData mediaQuery, AppBar appBar,
+      double statusBar, Widget txListWidget) {
+    return [
+      Container(
+          height: (mediaQuery.size.height -
+                  appBar.preferredSize.height -
+                  statusBar) *
+              .3,
+          child: Chart(_recentTransaction)),
+      txListWidget
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -118,38 +160,12 @@ class _MyHomePageState extends State<MyHomePage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (isLandScape)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Show Chart', style: Theme.of(context).textTheme.title),
-                Switch.adaptive(
-                  activeColor: Theme.of(context).accentColor,
-                  value: _showChart,
-                  onChanged: (val) {
-                    setState(() {
-                      _showChart = val;
-                    });
-                  },
-                )
-              ],
-            ),
+            ..._buildLansScapeContent(
+                mediaQuery, appBar, statusBar, txListWidget),
           if (!isLandScape)
-            Container(
-                height: (mediaQuery.size.height -
-                        appBar.preferredSize.height -
-                        statusBar) *
-                    .3,
-                child: Chart(_recentTransaction)),
-          if (!isLandScape) txListWidget,
-          if (isLandScape)
-            _showChart
-                ? Container(
-                    height: (mediaQuery.size.height -
-                            appBar.preferredSize.height -
-                            statusBar) *
-                        .6,
-                    child: Chart(_recentTransaction))
-                : txListWidget
+            //... 34an split elements badl ma hea list menf34 a7ot list gwa list lazm item gwa list
+            ..._buildPortraitContent(
+                mediaQuery, appBar, statusBar, txListWidget),
         ],
       ),
     ));
